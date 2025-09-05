@@ -1,0 +1,563 @@
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #f0f0f0;
+    margin: 0;
+    padding: 20px;
+    box-sizing: border-box;
+    flex-wrap: wrap;
+}
+
+.container {
+    display: grid;
+    /* MODIFIED: Added a row for the guide, shifted others down */
+    grid-template-rows: auto auto 1fr auto; /* welcome, guide, main controls, patient feedback */
+    grid-template-columns: 1fr 2fr 1fr;
+    gap: 20px;
+    width: 100%;
+    max-width: 1200px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+}
+
+.welcome-message {
+    grid-column: 1 / 4;
+    grid-row: 1;
+    background-color: #d1ecf1;
+    color: #0c5460;
+    border: 1px solid #bee5eb;
+    border-radius: 8px;
+    padding: 15px 20px;
+    margin-bottom: 20px;
+    font-size: 1.1em;
+    font-weight: bold;
+    text-align: center;
+}
+
+/* MODIFIED: Grid row for left/center/right panels */
+.left-panel {
+    grid-column: 1;
+    grid-row: 3; /* Shifted to row 3 */
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.right-panel {
+    grid-column: 3;
+    grid-row: 3; /* Shifted to row 3 */
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.center-panel {
+    grid-column: 2 / 3;
+    grid-row: 3; /* Shifted to row 3 */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+/* MODIFIED: Grid row for bottom panel */
+.bottom-panel {
+    grid-column: 1 / 4;
+    grid-row: 4; /* Shifted to row 4 */
+    padding-top: 20px;
+    border-top: 1px solid #eee;
+}
+
+.section {
+    background-color: #f9f9f9;
+    padding: 15px;
+    border-radius: 8px;
+    border: 1px solid #eee;
+}
+
+h3 {
+    margin-top: 0;
+    color: #333;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 5px;
+    margin-bottom: 10px;
+}
+
+label {
+    display: block;
+    margin-top: 10px;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #555;
+}
+
+button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    margin-top: 10px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+button:hover:not(:disabled) {
+    background-color: #0056b3;
+}
+
+button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+
+.instructions-box, .feedback-box, .rx-display {
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 5px;
+    min-height: 50px;
+    background-color: #e9f7ff;
+    color: #333;
+    line-height: 1.4;
+}
+
+.feedback-box {
+    background-color: #fff3e0;
+}
+
+.rx-display {
+    font-weight: bold;
+    color: #0056b3;
+    min-height: 30px;
+    display: flex;
+    align-items: center;
+}
+
+/* NEW: Styles for SVG axis sliders */
+.axis-svg-slider {
+    width: 100%;
+    height: 100px;
+    margin: 10px 0;
+    position: relative;
+    cursor: grab;
+    touch-action: none;
+}
+
+.axis-svg-slider.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+.axis-svg-slider svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+    overflow: visible;
+}
+
+.axis-svg-slider .slider-track {
+    fill: none;
+    stroke: #ccc;
+    stroke-width: 4;
+}
+
+.axis-svg-slider .slider-thumb {
+    fill: #007bff;
+    stroke: #fff;
+    stroke-width: 2;
+    cursor: grab;
+    pointer-events: all;
+}
+
+/* NEW: Style for the axis line within the SVG slider */
+.axis-line {
+    stroke: #007bff; /* Matches the thumb color */
+    stroke-width: 2;
+    pointer-events: none; /* Ensure it doesn't interfere with dragging the thumb */
+}
+
+/* --- Eye and Lens/JCC Styling --- */
+.eye-container {
+    position: relative;
+    width: 300px;
+    height: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px auto;
+}
+
+.eye {
+    width: 200px;
+    height: 200px;
+    background-color: #f7f7f7;
+    border: 5px solid #aaa;
+    border-radius: 50%;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.trial-lens {
+    position: absolute;
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    background-color: rgba(255, 0, 0, 0.3);
+    border: 2px solid red;
+    box-sizing: border-box;
+    transform-origin: center;
+    transition: transform 0.1s ease-out;
+}
+
+.lens-axis-indicator {
+    position: absolute;
+    width: 100%;
+    height: 2px;
+    background-color: red;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+}
+
+.jcc {
+    position: absolute;
+    width: 150px;
+    height: 150px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transform-origin: center;
+    transition: transform 0.1s ease-out;
+}
+
+.jcc-handle {
+    position: absolute;
+    width: 60px;
+    height: 8px;
+    background-color: #8B4513;
+    border-radius: 4px;
+    transform-origin: left center;
+    transform: translateX(25px) rotate(0deg);
+}
+
+.jcc-red-line, .jcc-green-line {
+    position: absolute;
+    width: 2px;
+    height: 100%;
+    left: 50%;
+    transform: translateX(-50%) rotate(0deg);
+    transition: transform 0.1s ease-out;
+}
+
+.jcc-red-line {
+    background-color: red;
+}
+
+.jcc-green-line {
+    background-color: green;
+}
+
+.cylinder-power-display {
+    position: absolute;
+    font-size: 0.8em;
+    font-weight: bold;
+    color: #333;
+    white-space: nowrap;
+    pointer-events: none;
+    transform-origin: center center;
+    padding: 2px 5px;
+    background-color: rgba(255, 255, 255, 0.7);
+    border-radius: 3px;
+}
+
+.jcc-position-display {
+    position: absolute;
+    font-size: 0.8em;
+    font-weight: bold;
+    color: #007bff;
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 5px;
+    padding: 3px 8px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) translateY(-55px);
+    white-space: nowrap;
+    pointer-events: none;
+    z-index: 50;
+}
+
+
+/* Axis Dial */
+.axis-dial {
+    position: absolute;
+    width: 250px;
+    height: 250px;
+    border: 1px solid #ccc;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    pointer-events: none;
+}
+
+.dial-marker {
+    position: absolute;
+    transform: rotate(var(--css-angle)) translateX(125px) rotate(calc(0deg - var(--css-angle)));
+    transform-origin: center;
+    font-size: 0.8em;
+    color: #777;
+    width: 30px;
+    text-align: center;
+    line-height: 1;
+    pointer-events: none;
+}
+
+
+/* JCC Notification Box Styles */
+.jcc-notification-box {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    border: 2px solid #dc3545;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    z-index: 1000;
+    min-width: 250px;
+    max-width: 80%;
+}
+
+.jcc-notification-box p {
+    font-size: 1.1em;
+    color: #dc3545;
+    margin-bottom: 15px;
+    font-weight: bold;
+}
+
+.jcc-notification-box button {
+    background-color: #dc3545;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    width: auto;
+    display: inline-block;
+    margin-top: 0;
+}
+
+.jcc-notification-box button:hover {
+    background-color: #c82333;
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* Specific styling for the Start Tutorial button */
+.start-button {
+    margin-top: 0;
+    background-color: #28a745;
+    border-color: #28a745;
+}
+
+.start-button:hover:not(:disabled) {
+    background-color: #218838;
+    border-color: #1e7e34;
+}
+
+
+/* --- JCC Procedure Guide Styling (integrated) --- */
+
+/* Main Container for the Guide */
+.jcc-guide-container {
+    grid-column: 1 / 4; /* Spans all columns */
+    grid-row: 2; /* Positioned in the second row */
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    max-width: 800px; /* Constrain width for readability */
+    width: 100%;
+    margin: 20px auto; /* Center it horizontally within its grid cell */
+    overflow-y: auto; /* Allow scrolling if guide content is too long */
+    max-height: 80vh; /* Limit height to prevent it from pushing content off-screen */
+}
+
+.jcc-guide-container h1 {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #0056b3;
+    text-align: center;
+    margin-bottom: 25px;
+    font-size: 2.2em;
+    border-bottom: 2px solid #e0e0e0;
+    padding-bottom: 15px;
+}
+
+.jcc-guide-container h2 {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #007bff;
+    margin-top: 30px;
+    margin-bottom: 15px;
+    font-size: 1.8em;
+    border-left: 5px solid #007bff;
+    padding-left: 15px;
+}
+
+.jcc-guide-container h3 {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #495057;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    font-size: 1.3em;
+}
+
+.guide-intro {
+    font-size: 1.1em;
+    text-align: center;
+    margin-bottom: 30px;
+    color: #555;
+}
+
+.procedure-section {
+    margin-bottom: 40px;
+    padding: 20px;
+    border-radius: 8px;
+    background-color: #f1f7ff; /* Light blue background for sections */
+    border: 1px solid #d0e0f0;
+}
+
+.procedure-section:last-child {
+    margin-bottom: 0;
+}
+
+.section-content {
+    padding-left: 10px;
+}
+
+.jcc-guide-container p, .jcc-guide-container ul {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin-bottom: 1em;
+}
+
+.jcc-guide-container ul {
+    list-style-type: disc;
+    padding-left: 25px;
+}
+
+.jcc-guide-container li {
+    margin-bottom: 0.5em;
+}
+
+/* Color Coding for JCC Elements */
+.jcc-red-text {
+    color: #dc3545; /* Red for minus cylinder/red dots */
+    font-weight: bold;
+}
+
+.jcc-green-text {
+    color: #28a745; /* Green for plus cylinder/green dots */
+    font-weight: bold;
+}
+
+/* Action Highlighting */
+.tip-action {
+    display: block; /* Ensures it takes full width */
+    padding: 8px 12px;
+    margin-top: 8px;
+    border-left: 4px solid #ffc107; /* Yellow border for actions */
+    background-color: #fffde7; /* Light yellow background */
+    font-style: italic;
+    font-size: 0.95em;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+.highlight {
+    background-color: #d1ecf1; /* Light cyan highlight */
+    padding: 2px 4px;
+    border-radius: 3px;
+    font-weight: bold;
+}
+
+/* Power Adjustment Specific Colors */
+.power-increase {
+    color: #dc3545; /* Red for increasing minus power */
+    font-weight: bold;
+}
+
+.power-decrease {
+    color: #28a745; /* Green for decreasing minus power (or increasing plus) */
+    font-weight: bold;
+}
+
+.final-tip {
+    font-style: italic;
+    text-align: center;
+    margin-top: 30px;
+    color: #6c757d;
+    font-size: 0.95em;
+}
+
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .container {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto; /* Auto rows to stack all elements */
+    }
+    .welcome-message, .jcc-guide-container, .left-panel, .right-panel, .center-panel, .bottom-panel {
+        grid-column: 1 / 2;
+        grid-row: auto; /* Let rows stack automatically */
+    }
+    
+    .eye-container {
+        width: 250px;
+        height: 250px;
+    }
+    .axis-dial {
+        width: 200px;
+        height: 200px;
+    }
+    .dial-marker {
+        transform: rotate(var(--css-angle)) translateX(100px) rotate(calc(0deg - var(--css-angle)));
+    }
+    .jcc-notification-box {
+        max-width: 95%;
+    }
+
+    /* Adjust guide styling for smaller screens */
+    .jcc-guide-container {
+        padding: 20px;
+        margin: 10px auto;
+        max-height: none; /* Allow full height on mobile if necessary */
+    }
+    .jcc-guide-container h1 {
+        font-size: 1.8em;
+    }
+    .jcc-guide-container h2 {
+        font-size: 1.5em;
+    }
+    .jcc-guide-container h3 {
+        font-size: 1.1em;
+    }
+    .jcc-guide-container ul {
+        padding-left: 20px;
+    }
+}

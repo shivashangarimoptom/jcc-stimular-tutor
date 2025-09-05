@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JCC Tutor Stimulator</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div id="welcomeMessage" class="welcome-message"></div>
+
+        <!-- NEW: JCC Procedure Guide Section -->
+        <div id="jccProcedureGuide" class="jcc-guide-container">
+            <h1>Jackson Cross Cylinder (JCC) Refinement Guide</h1>
+            <p class="guide-intro">The JCC is used to fine-tune cylinder axis and power. Remember these key rules based on patient feedback.</p>
+
+            <div class="procedure-section axis-refinement">
+                <h2>1. Cylinder Axis Refinement</h2>
+                <div class="section-content">
+                    <h3>Goal: Find the exact cylinder axis.</h3>
+                    <p>
+                        <strong>Setup:</strong>
+                        <ul>
+                            <li>Align the JCC handle <span class="highlight">parallel</span> to the current trial cylinder axis.</li>
+                            <li>This means the JCC's <span class="jcc-red-text">minus (-) cylinder axis (red dots)</span> and <span class="jcc-green-text">plus (+) cylinder axis (green dots)</span> are at &plusmn;45&deg; from the trial cylinder axis.</li>
+                        </ul>
+                    </p>
+                    <p>
+                        <strong>Procedure:</strong>
+                        <ul>
+                            <li>Flip the JCC (Position 1 vs. Position 2).</li>
+                            <li>Ask the patient: "Which position is clearer, 1 or 2?"</li>
+                        </ul>
+                    </p>
+                    <p>
+                        <strong>Rotation Rule (for Minus Cylinder):</strong>
+                        <ul>
+                            <li>If the patient prefers the position where the JCC's <span class="jcc-red-text">minus (-) cylinder axis (red dots)</span> is closer to the current trial lens axis:
+                                <br> <span class="tip-action">→ Rotate the trial lens axis <span class="bold">TOWARDS</span> the <span class="jcc-red-text">red dots</span>.</span>
+                                <br> (This is often summarized as: "<strong><span class="jcc-red-text">Chase the red.</span></strong>")
+                            </li>
+                            <li>If the patient prefers the position where the JCC's <span class="jcc-green-text">plus (+) cylinder axis (green dots)</span> is closer to the current trial lens axis:
+                                <br> <span class="tip-action">→ Rotate the trial lens axis <span class="bold">AWAY</span> from the <span class="jcc-red-text">red dots</span> (or TOWARDS the <span class="jcc-green-text">green dots</span>).</span>
+                            </li>
+                            <li>Continue adjusting in smaller steps (e.g., 5-10&deg; then 3-5&deg;) until both positions are <span class="highlight">equally clear/blurred</span>.</li>
+                        </ul>
+                    </p>
+                </div>
+            </div>
+
+            <div class="procedure-section power-refinement">
+                <h2>2. Cylinder Power Refinement</h2>
+                <div class="section-content">
+                    <h3>Goal: Find the exact cylinder power.</h3>
+                    <p>
+                        <strong>Setup:</strong>
+                        <ul>
+                            <li>Rotate the JCC handle to 45&deg; from the confirmed trial cylinder axis.</li>
+                            <li>This aligns the JCC's <span class="jcc-red-text">minus (-) cylinder axis (red dots)</span> with the trial cylinder axis in one position, and the <span class="jcc-green-text">plus (+) cylinder axis (green dots)</span> with the trial cylinder axis in the other.</li>
+                        </ul>
+                    </p>
+                    <p>
+                        <strong>Procedure:</strong>
+                        <ul>
+                            <li>Flip the JCC (Position 1 vs. Position 2).</li>
+                            <li>Ask the patient: "Which position is clearer, 1 or 2?"</li>
+                        </ul>
+                    </p>
+                    <p>
+                        <strong>Power Adjustment Rule (for Minus Cylinder Notation):</strong>
+                        <ul>
+                            <li>If the patient prefers the position where the JCC's <span class="jcc-red-text">minus (-) cylinder axis (red dots)</span> is aligned with the trial cylinder axis:
+                                <br> <span class="tip-action">→ <span class="power-increase">ADD more minus cylinder (-0.25 DC)</span>.</span>
+                            </li>
+                            <li>If the patient prefers the position where the JCC's <span class="jcc-green-text">plus (+) cylinder axis (green dots)</span> is aligned with the trial cylinder axis:
+                                <br> <span class="tip-action">→ <span class="power-decrease">REDUCE minus cylinder (-0.25 DC)</span> (i.e., add +0.25 DC).</span>
+                            </li>
+                            <li>After each cylinder power change, remember to adjust sphere: for every -0.50 DC added, add +0.25 DS to keep the circle of least confusion on the retina.</li>
+                            <li>Continue adjusting until both positions are <span class="highlight">equally clear/blurred</span>.</li>
+                        </ul>
+                    </p>
+                </div>
+            </div>
+
+            <p class="final-tip">Always re-check the axis after a significant power change, and re-check power after an axis change.</p>
+        </div>
+        <!-- END: JCC Procedure Guide Section -->
+
+        <div class="controls left-panel">
+            <div class="section">
+                <h3>JCC Controls</h3>
+                <button id="flipJCC">Flip JCC</button>
+                <label>JCC Handle Angle:</label>
+                <div id="jccAxisSlider" class="axis-svg-slider disabled">
+                    <svg viewBox="0 0 100 100">
+                        <circle cx="50" cy="50" r="40" class="slider-track"></circle>
+                        <line id="jccAxisLine" x1="50" y1="50" x2="90" y2="50" class="axis-line"></line>
+                        <circle cx="90" cy="50" r="8" class="slider-thumb"></circle>
+                    </svg>
+                </div>
+                <span id="jccAngleDisplay">0&deg;</span>
+            </div>
+            <div class="section">
+                <h3>Tutor Instructions</h3>
+                <div id="tutorInstructions" class="instructions-box">
+                    <button id="startTutorialButton" class="start-button">Start Tutorial</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="eye-container center-panel">
+            <div class="eye">
+                <div class="trial-lens red-lens" id="trialLens">
+                    <div class="lens-axis-indicator"></div>
+                    <div id="cylinderPowerDisplay" class="cylinder-power-display"></div>
+                </div>
+                <div class="jcc" id="jcc">
+                    <div class="jcc-handle"></div>
+                    <div class="jcc-red-line"></div>
+                    <div class="jcc-green-line"></div>
+                    <div id="jccPositionDisplay" class="jcc-position-display"></div>
+                </div>
+            </div>
+            <div class="axis-dial">
+                <div class="dial-marker" style="--css-angle: 0deg;">0</div>
+                <div class="dial-marker" style="--css-angle: 345deg;">15</div>
+                <div class="dial-marker" style="--css-angle: 330deg;">30</div>
+                <div class="dial-marker" style="--css-angle: 315deg;">45</div>
+                <div class="dial-marker" style="--css-angle: 300deg;">60</div>
+                <div class="dial-marker" style="--css-angle: 285deg;">75</div>
+                <div class="dial-marker" style="--css-angle: 270deg;">90</div>
+                <div class="dial-marker" style="--css-angle: 255deg;">105</div>
+                <div class="dial-marker" style="--css-angle: 240deg;">120</div>
+                <div class="dial-marker" style="--css-angle: 225deg;">135</div>
+                <div class="dial-marker" style="--css-angle: 210deg;">150</div>
+                <div class="dial-marker" style="--css-angle: 195deg;">165</div>
+                <div class="dial-marker" style="--css-angle: 180deg;">180</div>
+            </div>
+
+            <div id="jccNotification" class="jcc-notification-box hidden">
+                <p id="notificationMessage"></p>
+                <button id="notificationOkButton">OK</button>
+            </div>
+        </div>
+
+        <div class="controls right-panel">
+            <div class="section">
+                <h3>Lens Controls</h3>
+                <button id="increasePower">Increase Power (-0.25 DC)</button>
+                <button id="decreasePower">Decrease Power (+0.25 DC)</button>
+                <label>Lens Axis:</label>
+                <div id="lensAxisSlider" class="axis-svg-slider disabled">
+                    <svg viewBox="0 0 100 100">
+                        <circle cx="50" cy="50" r="40" class="slider-track"></circle>
+                        <line id="lensAxisLine" x1="50" y1="50" x2="90" y2="50" class="axis-line"></line>
+                        <circle cx="90" cy="50" r="8" class="slider-thumb"></circle>
+                    </svg>
+                </div>
+                <span id="lensAngleDisplay">180&deg;</span>
+                <button id="confirmAxis">Confirm Axis</button>
+                <button id="confirmPower">Confirm Power</button>
+            </div>
+            <div class="section">
+                <h3>Current Trial RX</h3>
+                <div id="currentRX" class="rx-display"></div>
+                <h3>Final Verified RX</h3>
+                <div id="finalRX" class="rx-display"></div>
+            </div>
+        </div>
+
+        <div class="patient-feedback bottom-panel">
+            <h3>Patient Feedback (Continuous)</h3>
+            <div id="patientFeedback" class="feedback-box"></div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
