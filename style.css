@@ -1,8 +1,9 @@
+/* --- Base Styles (for Desktop and larger screens - default) --- */
 body {
     font-family: Arial, sans-serif;
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: center; /* Center vertically for desktop, but will change for mobile */
     min-height: 100vh;
     background-color: #f0f0f0;
     margin: 0;
@@ -13,9 +14,9 @@ body {
 
 .container {
     display: grid;
-    /* MODIFIED: Added a row for the guide, shifted others down */
+    /* Desktop layout: welcome, guide, main controls (3 columns), patient feedback */
     grid-template-rows: auto auto 1fr auto; /* welcome, guide, main controls, patient feedback */
-    grid-template-columns: 1fr 2fr 1fr;
+    grid-template-columns: 1fr 2fr 1fr; /* Left, Center (wider), Right */
     gap: 20px;
     width: 100%;
     max-width: 1200px;
@@ -26,7 +27,7 @@ body {
 }
 
 .welcome-message {
-    grid-column: 1 / 4;
+    grid-column: 1 / 4; /* Spans all 3 columns */
     grid-row: 1;
     background-color: #d1ecf1;
     color: #0c5460;
@@ -39,10 +40,125 @@ body {
     text-align: center;
 }
 
-/* MODIFIED: Grid row for left/center/right panels */
+/* JCC Procedure Guide Styling (Desktop) */
+.jcc-guide-container {
+    grid-column: 1 / 4; /* Spans all 3 columns */
+    grid-row: 2;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    max-width: 800px; /* Constrain width for readability on wide screens */
+    width: 100%;
+    margin: 20px auto; /* Center it horizontally within its grid cell */
+    overflow-y: auto; /* Allow scrolling if guide content is too long */
+    max-height: 70vh; /* Limit height to prevent it from pushing content off-screen */
+}
+/* Ensure text styles apply within the guide */
+.jcc-guide-container h1 {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #0056b3;
+    text-align: center;
+    margin-bottom: 25px;
+    font-size: 2.2em;
+    border-bottom: 2px solid #e0e0e0;
+    padding-bottom: 15px;
+}
+.jcc-guide-container h2 {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #007bff;
+    margin-top: 30px;
+    margin-bottom: 15px;
+    font-size: 1.8em;
+    border-left: 5px solid #007bff;
+    padding-left: 15px;
+}
+.jcc-guide-container h3 {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #495057;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    font-size: 1.3em;
+}
+.guide-intro {
+    font-size: 1.1em;
+    text-align: center;
+    margin-bottom: 30px;
+    color: #555;
+}
+.procedure-section {
+    margin-bottom: 40px;
+    padding: 20px;
+    border-radius: 8px;
+    background-color: #f1f7ff;
+    border: 1px solid #d0e0f0;
+}
+.procedure-section:last-child {
+    margin-bottom: 0;
+}
+.section-content {
+    padding-left: 10px;
+}
+.jcc-guide-container p, .jcc-guide-container ul {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin-bottom: 1em;
+}
+.jcc-guide-container ul {
+    list-style-type: disc;
+    padding-left: 25px;
+}
+.jcc-guide-container li {
+    margin-bottom: 0.5em;
+}
+/* Color Coding for JCC Elements */
+.jcc-red-text {
+    color: #dc3545;
+    font-weight: bold;
+}
+.jcc-green-text {
+    color: #28a745;
+    font-weight: bold;
+}
+/* Action Highlighting */
+.tip-action {
+    display: block;
+    padding: 8px 12px;
+    margin-top: 8px;
+    border-left: 4px solid #ffc107;
+    background-color: #fffde7;
+    font-style: italic;
+    font-size: 0.95em;
+}
+.bold {
+    font-weight: bold;
+}
+.highlight {
+    background-color: #d1ecf1;
+    padding: 2px 4px;
+    border-radius: 3px;
+    font-weight: bold;
+}
+/* Power Adjustment Specific Colors */
+.power-increase {
+    color: #dc3545;
+    font-weight: bold;
+}
+.power-decrease {
+    color: #28a745;
+    font-weight: bold;
+}
+.final-tip {
+    font-style: italic;
+    text-align: center;
+    margin-top: 30px;
+    color: #6c757d;
+    font-size: 0.95em;
+}
+
+
 .left-panel {
     grid-column: 1;
-    grid-row: 3; /* Shifted to row 3 */
+    grid-row: 3;
     display: flex;
     flex-direction: column;
     gap: 20px;
@@ -50,7 +166,7 @@ body {
 
 .right-panel {
     grid-column: 3;
-    grid-row: 3; /* Shifted to row 3 */
+    grid-row: 3;
     display: flex;
     flex-direction: column;
     gap: 20px;
@@ -58,7 +174,7 @@ body {
 
 .center-panel {
     grid-column: 2 / 3;
-    grid-row: 3; /* Shifted to row 3 */
+    grid-row: 3;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -66,10 +182,9 @@ body {
     position: relative;
 }
 
-/* MODIFIED: Grid row for bottom panel */
 .bottom-panel {
     grid-column: 1 / 4;
-    grid-row: 4; /* Shifted to row 4 */
+    grid-row: 4;
     padding-top: 20px;
     border-top: 1px solid #eee;
 }
@@ -141,7 +256,6 @@ button:disabled {
     align-items: center;
 }
 
-/* NEW: Styles for SVG axis sliders */
 .axis-svg-slider {
     width: 100%;
     height: 100px;
@@ -176,13 +290,13 @@ button:disabled {
     stroke-width: 2;
     cursor: grab;
     pointer-events: all;
+    r: 8; /* Default thumb radius for desktop */
 }
 
-/* NEW: Style for the axis line within the SVG slider */
 .axis-line {
-    stroke: #007bff; /* Matches the thumb color */
+    stroke: #007bff;
     stroke-width: 2;
-    pointer-events: none; /* Ensure it doesn't interfere with dragging the thumb */
+    pointer-events: none;
 }
 
 /* --- Eye and Lens/JCC Styling --- */
@@ -297,7 +411,6 @@ button:disabled {
     z-index: 50;
 }
 
-
 /* Axis Dial */
 .axis-dial {
     position: absolute;
@@ -322,7 +435,6 @@ button:disabled {
     line-height: 1;
     pointer-events: none;
 }
-
 
 /* JCC Notification Box Styles */
 .jcc-notification-box {
@@ -381,183 +493,243 @@ button:disabled {
 }
 
 
-/* --- JCC Procedure Guide Styling (integrated) --- */
+/* --- Tablet Media Query (769px to 1024px) --- */
+@media (min-width: 769px) and (max-width: 1024px) {
+    body {
+        padding: 15px;
+        align-items: flex-start;
+    }
 
-/* Main Container for the Guide */
-.jcc-guide-container {
-    grid-column: 1 / 4; /* Spans all columns */
-    grid-row: 2; /* Positioned in the second row */
-    background-color: #ffffff;
-    border-radius: 12px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-    padding: 30px;
-    max-width: 800px; /* Constrain width for readability */
-    width: 100%;
-    margin: 20px auto; /* Center it horizontally within its grid cell */
-    overflow-y: auto; /* Allow scrolling if guide content is too long */
-    max-height: 80vh; /* Limit height to prevent it from pushing content off-screen */
-}
-
-.jcc-guide-container h1 {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    color: #0056b3;
-    text-align: center;
-    margin-bottom: 25px;
-    font-size: 2.2em;
-    border-bottom: 2px solid #e0e0e0;
-    padding-bottom: 15px;
-}
-
-.jcc-guide-container h2 {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    color: #007bff;
-    margin-top: 30px;
-    margin-bottom: 15px;
-    font-size: 1.8em;
-    border-left: 5px solid #007bff;
-    padding-left: 15px;
-}
-
-.jcc-guide-container h3 {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    color: #495057;
-    margin-top: 20px;
-    margin-bottom: 10px;
-    font-size: 1.3em;
-}
-
-.guide-intro {
-    font-size: 1.1em;
-    text-align: center;
-    margin-bottom: 30px;
-    color: #555;
-}
-
-.procedure-section {
-    margin-bottom: 40px;
-    padding: 20px;
-    border-radius: 8px;
-    background-color: #f1f7ff; /* Light blue background for sections */
-    border: 1px solid #d0e0f0;
-}
-
-.procedure-section:last-child {
-    margin-bottom: 0;
-}
-
-.section-content {
-    padding-left: 10px;
-}
-
-.jcc-guide-container p, .jcc-guide-container ul {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    margin-bottom: 1em;
-}
-
-.jcc-guide-container ul {
-    list-style-type: disc;
-    padding-left: 25px;
-}
-
-.jcc-guide-container li {
-    margin-bottom: 0.5em;
-}
-
-/* Color Coding for JCC Elements */
-.jcc-red-text {
-    color: #dc3545; /* Red for minus cylinder/red dots */
-    font-weight: bold;
-}
-
-.jcc-green-text {
-    color: #28a745; /* Green for plus cylinder/green dots */
-    font-weight: bold;
-}
-
-/* Action Highlighting */
-.tip-action {
-    display: block; /* Ensures it takes full width */
-    padding: 8px 12px;
-    margin-top: 8px;
-    border-left: 4px solid #ffc107; /* Yellow border for actions */
-    background-color: #fffde7; /* Light yellow background */
-    font-style: italic;
-    font-size: 0.95em;
-}
-
-.bold {
-    font-weight: bold;
-}
-
-.highlight {
-    background-color: #d1ecf1; /* Light cyan highlight */
-    padding: 2px 4px;
-    border-radius: 3px;
-    font-weight: bold;
-}
-
-/* Power Adjustment Specific Colors */
-.power-increase {
-    color: #dc3545; /* Red for increasing minus power */
-    font-weight: bold;
-}
-
-.power-decrease {
-    color: #28a745; /* Green for decreasing minus power (or increasing plus) */
-    font-weight: bold;
-}
-
-.final-tip {
-    font-style: italic;
-    text-align: center;
-    margin-top: 30px;
-    color: #6c757d;
-    font-size: 0.95em;
-}
-
-
-/* Responsive adjustments */
-@media (max-width: 768px) {
     .container {
-        grid-template-columns: 1fr;
-        grid-template-rows: auto; /* Auto rows to stack all elements */
-    }
-    .welcome-message, .jcc-guide-container, .left-panel, .right-panel, .center-panel, .bottom-panel {
-        grid-column: 1 / 2;
-        grid-row: auto; /* Let rows stack automatically */
-    }
-    
-    .eye-container {
-        width: 250px;
-        height: 250px;
-    }
-    .axis-dial {
-        width: 200px;
-        height: 200px;
-    }
-    .dial-marker {
-        transform: rotate(var(--css-angle)) translateX(100px) rotate(calc(0deg - var(--css-angle)));
-    }
-    .jcc-notification-box {
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: auto auto auto auto auto;
+        gap: 15px;
+        padding: 15px;
         max-width: 95%;
     }
 
-    /* Adjust guide styling for smaller screens */
+    .welcome-message {
+        grid-column: 1 / 3;
+        grid-row: 1;
+        margin-bottom: 15px;
+    }
+
     .jcc-guide-container {
+        grid-column: 1 / 3;
+        grid-row: 2;
         padding: 20px;
+        margin: 15px auto;
+        max-width: 100%;
+        max-height: 60vh;
+    }
+    .jcc-guide-container h1 { font-size: 1.8em; }
+    .jcc-guide-container h2 { font-size: 1.5em; }
+    .jcc-guide-container h3 { font-size: 1.2em; }
+    .jcc-guide-container p, .jcc-guide-container ul { font-size: 0.95em; }
+
+
+    .center-panel {
+        grid-column: 1 / 3;
+        grid-row: 3;
+        margin-top: 0;
+    }
+
+    .left-panel {
+        grid-column: 1 / 2;
+        grid-row: 4;
+        gap: 15px;
+    }
+
+    .right-panel {
+        grid-column: 2 / 3;
+        grid-row: 4;
+        gap: 15px;
+    }
+
+    .bottom-panel {
+        grid-column: 1 / 3;
+        grid-row: 5;
+        padding-top: 15px;
+    }
+
+    /* Adjust eye & dial sizes for tablet */
+    .eye-container {
+        width: 280px;
+        height: 280px;
+        margin: 15px auto;
+    }
+    .eye {
+        width: 180px;
+        height: 180px;
+    }
+    .trial-lens {
+        width: 160px;
+        height: 160px;
+    }
+    .jcc {
+        width: 130px;
+        height: 130px;
+    }
+    .axis-dial {
+        width: 230px;
+        height: 230px;
+    }
+    .dial-marker {
+        transform: rotate(var(--css-angle)) translateX(115px) rotate(calc(0deg - var(--css-angle)));
+    }
+
+    /* --- IMPORTANT: Tablet specific SVG Slider Adjustments --- */
+    .axis-svg-slider {
+        height: 90px; /* Slightly reduced height to be more compact */
+    }
+    .axis-svg-slider .slider-thumb {
+        r: 10; /* Increased radius for easier touch on tablets */
+        stroke-width: 2.5; /* Slightly thicker stroke */
+    }
+    .axis-line {
+        stroke-width: 2.5; /* Match line thickness */
+    }
+}
+
+
+/* --- Mobile Media Query (max-width: 768px) --- */
+@media (max-width: 768px) {
+    body {
+        padding: 10px;
+        align-items: flex-start;
+    }
+
+    .container {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto;
+        gap: 8px;
+        padding: 8px;
+        max-width: 100%;
+    }
+
+    .welcome-message, .jcc-guide-container, .left-panel, .center-panel, .right-panel, .bottom-panel {
+        grid-column: 1 / 2;
+        grid-row: auto;
+        margin-bottom: 8px;
+    }
+    .welcome-message {
+        margin-top: 0;
+        padding: 10px 15px;
+        font-size: 1em;
+    }
+    .jcc-guide-container {
+        margin-top: 0;
+        padding: 10px 15px;
+        max-height: 65vh;
+    }
+    .jcc-guide-container h1 { font-size: 1.5em; margin-bottom: 12px; padding-bottom: 10px; }
+    .jcc-guide-container h2 { font-size: 1.2em; margin-top: 15px; padding-left: 10px; }
+    .jcc-guide-container h3 { font-size: 0.95em; margin-top: 10px; }
+    .jcc-guide-container p, .jcc-guide-container ul { font-size: 0.85em; }
+    .jcc-guide-container ul { padding-left: 20px; }
+    .jcc-guide-container li { margin-bottom: 0.3em; }
+    .procedure-section {
+        padding: 15px;
+        margin-bottom: 20px;
+    }
+    .tip-action { padding: 5px 8px; font-size: 0.8em; }
+    .final-tip { margin-top: 20px; font-size: 0.85em; }
+
+    .bottom-panel {
+        margin-bottom: 0;
+        padding-top: 10px;
+    }
+
+    .section {
+        padding: 10px;
+        gap: 8px;
+    }
+    button {
+        padding: 7px 10px;
+        font-size: 0.85em;
+        margin-top: 8px;
+    }
+    label {
+        margin-top: 8px;
+        margin-bottom: 3px;
+        font-size: 0.9em;
+    }
+    .instructions-box, .feedback-box, .rx-display {
+        padding: 8px;
+        min-height: 40px;
+        font-size: 0.9em;
+    }
+    .rx-display { min-height: 25px; }
+
+
+    /* Adjust eye & dial sizes for mobile */
+    .eye-container {
+        width: 220px;
+        height: 220px;
         margin: 10px auto;
-        max-height: none; /* Allow full height on mobile if necessary */
     }
-    .jcc-guide-container h1 {
-        font-size: 1.8em;
+    .eye {
+        width: 140px;
+        height: 140px;
+        border-width: 3px;
     }
-    .jcc-guide-container h2 {
-        font-size: 1.5em;
+    .trial-lens {
+        width: 120px;
+        height: 120px;
+        border-width: 1px;
     }
-    .jcc-guide-container h3 {
-        font-size: 1.1em;
+    .lens-axis-indicator {
+        height: 1px;
     }
-    .jcc-guide-container ul {
-        padding-left: 20px;
+    .jcc {
+        width: 90px;
+        height: 90px;
+    }
+    .jcc-handle {
+        width: 40px;
+        height: 5px;
+        transform: translateX(15px) rotate(0deg);
+    }
+    .jcc-red-line, .jcc-green-line {
+        width: 1px;
+    }
+    .cylinder-power-display, .jcc-position-display {
+        font-size: 0.65em;
+        padding: 1px 3px;
+        transform: translate(-50%, -50%) translateY(-35px) rotate(var(--dynamic-rotation));
+    }
+    .axis-dial {
+        width: 180px;
+        height: 180px;
+        border-width: 1px;
+    }
+    .dial-marker {
+        transform: rotate(var(--css-angle)) translateX(90px) rotate(calc(0deg - var(--css-angle)));
+        font-size: 0.65em;
+        width: 20px;
+    }
+    
+    .jcc-notification-box {
+        padding: 12px;
+    }
+    .jcc-notification-box p {
+        font-size: 0.95em;
+        margin-bottom: 8px;
+    }
+    .jcc-notification-box button {
+        padding: 7px 12px;
+        font-size: 0.85em;
+    }
+
+    /* --- IMPORTANT: Mobile specific SVG Slider Adjustments --- */
+    .axis-svg-slider {
+        height: 80px;
+    }
+    .axis-svg-slider .slider-thumb {
+        r: 12; /* Increased radius for easier touch on mobile */
+        stroke-width: 3; /* Thicker stroke for visibility */
+    }
+    .axis-line {
+        stroke-width: 3; /* Thicker line for visibility */
     }
 }
